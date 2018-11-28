@@ -1,5 +1,6 @@
 # aks-netcore-netdc18
 Sample Code / Snippets for .NET Developer Conference 2018 #netdc18
+[Slides](https://speakerdeck.com/alexzeitler)
 
 ## Azure DevOps requirements
 - Enable Microsoft.OperationsManagement Resource Provider in subscription
@@ -95,3 +96,12 @@ docker push netdc18.azurecr.io/netdc18-backend
 kubectl --namespace=netdc18private apply -f deployment-private.yaml
 ```
 
+## Scale Cluster
+```
+az aks scale --name netdc18 --resource-group netdc18 --node-count 1
+```
+
+## Upgrade Cluster
+```
+az aks upgrade --name netdc18 --resource-group netdc18 --kubernetes-version 1.9.6
+```
