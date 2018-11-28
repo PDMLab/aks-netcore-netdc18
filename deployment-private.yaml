@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netdc18-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netdc18-backend
+  template:
+    metadata:
+      labels:
+        app: netdc18-backend
+    spec:
+      containers:
+      - name: netdc18-backend
+        image: netdc18.azurecr.io/netdc18-backend
+        ports:
+        - containerPort: 80
+          name: netdc18-backend
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netdc18-backend
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: netdc18-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netdc18-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netdc18-frontend
+  template:
+    metadata:
+      labels:
+        app: netdc18-frontend
+    spec:
+      containers:
+      - name: netdc18-frontend
+        image: netdc18.azurecr.io/netdc18-frontend
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netdc18-frontend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: netdc18-frontend

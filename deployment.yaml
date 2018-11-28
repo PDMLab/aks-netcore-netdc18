@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netdc18-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netdc18-backend
+  template:
+    metadata:
+      labels:
+        app: netdc18-backend
+    spec:
+      containers:
+      - name: netdc18-backend
+        image: pdmlab/netdc18-backend
+        ports:
+        - containerPort: 80
+          name: netdc18-backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netdc18-backend
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: netdc18-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netdc18-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netdc18-frontend
+  template:
+    metadata:
+      labels:
+        app: netdc18-frontend
+    spec:
+      containers:
+      - name: netdc18-frontend
+        image: pdmlab/netdc18-frontend
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netdc18-frontend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: netdc18-frontend
